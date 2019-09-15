@@ -17,7 +17,10 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+// survivor urls
 Route::get('survivor/', 'SurvivorController@index');
 Route::post('survivor/', 'SurvivorController@store');
 Route::put('survivor/{id}/', 'SurvivorController@update');
 Route::post('survivor/mark_infected/', 'SurvivorController@markInfected');
+// inventory urls
+Route::post('inventory/trade/','InventoryController@makeTrade');
