@@ -7,6 +7,7 @@ use App\Survivor as Survivor;
 use App\AlertInfected;
 use App\Http\Requests\SurvivorRequest;
 use App\Http\Requests\MarkInfectedRequest;
+use App\Http\Requests\UpdateSurvivorRequest;
 use \Illuminate\Support\Facades\Validator;
 use \Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
@@ -55,37 +56,23 @@ class SurvivorController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSurvivorRequest $request, $id)
     {
-        //
+        $survivor = Survivor::find($id);
+
+        if ($survivor){
+            $survivor->update($request->all());
+        } else {
+            return response()->json(['message'=>'Not find survivor'],404);
+        }
+
+        return response()->json($survivor,200);
     }
 
     /**

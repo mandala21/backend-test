@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('survivor', 'SurvivorController@index');
-Route::post('survivor', 'SurvivorController@store');
-Route::post('survivor/mark_infected', 'SurvivorController@markInfected');
+Route::get('survivor/', 'SurvivorController@index');
+Route::post('survivor/', 'SurvivorController@store');
+Route::put('survivor/{id}/', 'SurvivorController@update');
+Route::post('survivor/mark_infected/', 'SurvivorController@markInfected');
