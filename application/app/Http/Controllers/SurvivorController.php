@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Survivor as Survivor;
+use App\AlertInfected;
 use App\Http\Requests\SurvivorRequest;
-use App\Http\Requests\ReturnResponse;
+use App\Http\Requests\MarkInfectedRequest;
 use \Illuminate\Support\Facades\Validator;
 use \Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,7 @@ class SurvivorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\SurvivorRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(SurvivorRequest $request)
@@ -96,5 +97,27 @@ class SurvivorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Add one alert that the survivor is infected
+     * @param App\Http\Requests\MarkInfectedRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function markInfected(MarkInfectedRequest $request){
+        $data = $request->all();
+        //check if has reported
+        $reported = AlertInfected::where([
+            ['reporter_id','=',$data['reporter_id']],
+            ['survivor_id','=',$data['survivor_id']],
+        ])->count();
+        //the survivor dont reported the aim
+        if ($reported == 0){
+            $alert = AlertInfected::create($request->all());
+        } else {
+            return response()->json(['message'=>'The survivor has been reported for you'],400);
+        }
+
+        return response()->json($alert,201);
     }
 }

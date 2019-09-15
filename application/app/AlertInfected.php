@@ -8,5 +8,5 @@ class AlertInfected extends Model
 {
     protected $table = 'alert_infected';
 
-    protected $fillable = ['survivor_id'];
+    protected $fillable = ['survivor_id','reporter_id'];
 }

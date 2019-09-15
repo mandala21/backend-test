@@ -19,3 +19,4 @@ use Illuminate\Http\Request;
 
 Route::get('survivor', 'SurvivorController@index');
 Route::post('survivor', 'SurvivorController@store');
+Route::post('survivor/mark_infected', 'SurvivorController@markInfected');
