@@ -24,7 +24,9 @@ class InventoryCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'survivor_id'       => 'required|integer',
+            'itens.*.item'      => 'required|integer',
+            'itens.*.ammount'   => 'required|integer',
         ];
     }
 }

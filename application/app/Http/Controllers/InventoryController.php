@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\InventoryTradeRequest;
+use App\Http\Requests\InventoryCreateRequest;
 use App\Helper\ItensValue;
 use App\Inventory;
 use App\Survivor;
@@ -16,9 +17,18 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($survivor_id)
     {
-        //
+        $survivor = Survivor::find($survivor_id);
+        if ($survivor){
+            if($survivor->isInfected()){
+                return response()->json(['message'=>'Survivor is infected'],400);
+            }
+            //list all itens of survivor
+            return response()->json($survivor->inventory->toArray());
+        } else {
+            return response()->json(['message'=>'survivor not found'],404);
+        }
     }
 
     /**
@@ -29,7 +39,29 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        try{
+            DB::beginTransaction();
+            $data = $request->all();
+            $survivor = Survivor::find($data['survivor_id']);
+            if ($survivor){
+                //check if is infected
+                if($survivor->isInfected()){
+                    return response()->json(['message'=>'Survivor infected dont change your inventory'],400);
+                }
+                //for each item create for survivor inventory
+                foreach ($data['itens'] as $item) {
+                    $survivor->inventory()->create($item);
+                }
+            } else{
+                //dont find
+                return response()->json(['message'=>'Survivor not found'],404);
+            }
+            DB::commit();
+            return response()->json($survivor->inventory(),201);
+        } catch (\Throwable $th){
+            DB::rollBack();
+            return response()->json(['message'=>'Error in process'],500);
+        }
     }
 
     /**
@@ -70,7 +102,13 @@ class InventoryController extends Controller
             $recipient = Survivor::find($data['recipient']['survivor_id']);
             if(!$exchanger or !$recipient){
                 return response()->json(['message'=>'Exchanger or recipient not found'],404);
+            } else {
+                //check if dont infected
+                if ($exchanger->isInfected() or $recipient->isInfected()){
+                    return response()->json(['message'=>'Exchanger or recipient infected'],400);
+                }
             }
+
             //calcule price of exchanger itens
             foreach ($data['exchanger']['itens'] as $item) {
                 //get item of db
@@ -87,6 +125,7 @@ class InventoryController extends Controller
                         $recipient->inventory()->create($item);
                     } else {
                         //if bigger ammount, dont make trade
+                        DB::rollBack();
                         return response()->json(['message'=>'One item bigger of current ammount'],400);
                     }
                 } else {
@@ -113,6 +152,7 @@ class InventoryController extends Controller
                         $exchanger->inventory()->create($item);
                     } else {
                         //if bigger ammount, dont make trade
+                        DB::rollBack();
                         return response()->json(['message'=>'One item bigger of current ammount'],400);
                     }
                 } else {

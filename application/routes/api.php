@@ -24,3 +24,5 @@ Route::put('survivor/{id}/', 'SurvivorController@update');
 Route::post('survivor/mark_infected/', 'SurvivorController@markInfected');
 // inventory urls
 Route::post('inventory/trade/','InventoryController@makeTrade');
+Route::post('inventory/','InventoryController@store');
+Route::get('inventory/{survivor_id}','InventoryController@index');
