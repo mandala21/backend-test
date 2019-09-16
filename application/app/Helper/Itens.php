@@ -11,7 +11,7 @@
                 1, //ammunition
             ];
 
-            return $valueItens[$item];
+            return $valueItens[$item-1];
         }
     } 
     

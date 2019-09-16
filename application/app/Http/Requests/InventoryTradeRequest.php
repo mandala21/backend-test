@@ -28,12 +28,10 @@ class InventoryTradeRequest extends FormRequest
         return [
             'exchanger.survivor_id'     => 'required|integer',
             'exchanger.itens.*.ammount' => 'required|integer',
-            'exchanger.itens.*.item'    => 'required|integer',
             'exchanger.itens.*.id'      => 'required|integer',
             'recipient.survivor_id'     => 'required|integer',
             'recipient.itens.*.ammount' => 'required|integer',
             'recipient.itens.*.id'      => 'required|integer',
-            'recipient.itens.*.item'    => 'required|integer',
         ];
     }
 }

@@ -11,18 +11,18 @@ class Inventory extends Model
     
     protected $fillable = ['item','ammount','survivor_id'];
 
-    public function getItemAttribute($value){
-        switch ($value) {
-            case 1:
-                return 'Water';
-            case 2:
-                return 'Food';
-            case 3:
-                return 'Medication';
-            case 4:
-                return 'Ammunition';
-        }
-    }
+    // public function getItemAttribute($value){
+    //     switch ($value) {
+    //         case 1:
+    //             return 'Water';
+    //         case 2:
+    //             return 'Food';
+    //         case 3:
+    //             return 'Medication';
+    //         case 4:
+    //             return 'Ammunition';
+    //     }
+    // }
 
     public function survivor()
     {
