@@ -82,9 +82,25 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($survivor_id,$item_id)
     {
-        //
+        $survivor = Survivor::find($survivor_id);
+        if ($survivor){
+            if($survivor->isInfected()){
+                return response()->json(['message'=>'Survivor infected dont change in your inventory'],404);
+            }
+            //retrive item and check if survivor is owner 
+            $item = $survivor->inventory()->where('id',$item_id)->first();
+            if ($item){
+                $item->delete();
+                return response()->json([],204);
+            } else {
+                return response()->json(['message'=>'item dont exists or dont owned by survivor'],404);
+            }
+            
+        } else {
+            return response()->json(['message'=>'Survivor dont find'],404);
+        }
     }
 
     /**
