@@ -1,7 +1,6 @@
 <?php
     namespace App\Helper;
 
-
     class ItensValue{
         public static function getValue($item){
             $valueItens = [

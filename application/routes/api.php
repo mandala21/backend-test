@@ -18,12 +18,15 @@ use Illuminate\Http\Request;
 // });
 
 // survivor urls
-Route::get('survivor/', 'SurvivorController@index');
-Route::post('survivor/', 'SurvivorController@store');
-Route::put('survivor/{id}/', 'SurvivorController@update');
-Route::post('survivor/mark_infected/', 'SurvivorController@markInfected');
+Route::get('survivor/', 'SurvivorController@index')->name('surivor.list');
+Route::post('survivor/', 'SurvivorController@store')->name('survivor.create');
+Route::put('survivor/{id}/', 'SurvivorController@update')->name('survivor.edit');
+Route::post('survivor/mark_infected/', 'SurvivorController@markInfected')->name('survivor.markInfected');
 // inventory urls
-Route::post('inventory/trade/','InventoryController@makeTrade');
-Route::post('inventory/','InventoryController@store');
-Route::get('inventory/{survivor_id}/','InventoryController@index');
-Route::delete('inventory/{survivor_id}/{item_id}/','InventoryController@destroy');
+Route::post('inventory/trade/','InventoryController@makeTrade')->name('inventory.trade');
+Route::post('inventory/','InventoryController@store')->name('inventory.create');
+Route::get('inventory/{survivor_id}/','InventoryController@index')->name('inventory.list');
+Route::delete('inventory/{survivor_id}/{item_id}/','InventoryController@destroy')->name('inventory.delete');
+// reports urls
+Route::get('reports/population','ReportController@population')->name('report.population');
+Route::get('reports/itens','ReportController@itens')->name('report.itens');
