@@ -13,13 +13,13 @@ class Inventory extends Model
 
     public static function getHumanItem($value){
         switch ($value) {
-            case 1:
-                return 'Water';
-            case 2:
-                return 'Food';
-            case 3:
-                return 'Medication';
             case 4:
+                return 'Water';
+            case 3:
+                return 'Food';
+            case 2:
+                return 'Medication';
+            case 1:
                 return 'Ammunition';
         }
     }

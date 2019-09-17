@@ -148,7 +148,7 @@ class InventoryController extends Controller
                     DB::rollBack();
                     return response()->json(['message'=>'Item of exchange not found'],404);
                 }
-                $price = ItensValue::getValue($itemDB->item);
+                $price = $itemDB->item;
                 $totalExchanger += $price * $item['ammount'];
                 $itemDB->save();
             }
@@ -175,7 +175,7 @@ class InventoryController extends Controller
                     DB::rollBack();
                     return response()->json(['message'=>'Item of recipient not found'],404);
                 }
-                $price = ItensValue::getValue($itemDB->item);
+                $price = $itemDB->item;
                 $totalRecipient += $price * $item['ammount'];
                 $itemDB->save();
             }
