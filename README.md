@@ -26,3 +26,5 @@ cd ./application
 sudo chown -R www.data:www-data ./storage 
 ```
 
+Link of documentation
+https://documenter.getpostman.com/view/4710223/SVmvTeCZ?version=latest
