@@ -30,3 +30,4 @@ Route::delete('inventory/{survivor_id}/{item_id}/','InventoryController@destroy'
 // reports urls
 Route::get('reports/population','ReportController@population')->name('report.population');
 Route::get('reports/itens','ReportController@itens')->name('report.itens');
+Route::get('reports/lost_itens','ReportController@lostItens')->name('report.lot_itens');

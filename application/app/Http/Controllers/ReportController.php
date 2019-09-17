@@ -59,8 +59,18 @@ class ReportController extends Controller
     }
 
     /**
-     * Return the avarage ammoun of item by population
+     * Return the lost ammount itens by infected
      * @return \Illuminate\Http\Response
      */
-    public  
+    public function lostItens(){
+        //get all itens of survivor alive
+        $allItensLost = $allItens = DB::table('survivor')
+                        ->select(DB::raw('SUM(ammount) as total'))
+                        ->join('inventory','survivor.id','=','inventory.survivor_id')
+                        ->whereRaw('(select count(*) from "alert_infected" where "survivor"."id" = "alert_infected"."survivor_id") >= 3')
+                        ->get()
+                        ->toArray();
+        
+        return response()->json($allItensLost,200);
+    }
 }
